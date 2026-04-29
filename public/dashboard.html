@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+  <title>Dashboard | J.C. Memorial School</title>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,600;9..40,700&display=swap" rel="stylesheet"/>
+  <link rel="stylesheet" href="/css/styles.css"/>
+  <style>
+    .welcome-banner{background:linear-gradient(135deg,var(--navy) 0%,var(--navy-mid) 100%);border-radius:var(--r-xl);padding:32px 36px;display:flex;align-items:center;justify-content:space-between;gap:24px;margin-bottom:28px;position:relative;overflow:hidden}
+    .welcome-banner::before{content:'';position:absolute;width:260px;height:260px;background:radial-gradient(circle,rgba(200,155,60,.18) 0%,transparent 65%);top:-80px;right:-60px;border-radius:50%;pointer-events:none}
+    .welcome-text h2{font-family:'DM Serif Display',serif;font-size:1.7rem;color:var(--white);margin-bottom:4px}
+    .welcome-text p{font-size:.9rem;color:rgba(255,255,255,.6)}
+    .welcome-actions{display:flex;gap:10px;flex-shrink:0;flex-wrap:wrap}
+    .quick-actions{display:grid;grid-template-columns:repeat(auto-fill,minmax(140px,1fr));gap:12px;margin-bottom:28px}
+    .qa-card{background:var(--white);border:1.5px solid var(--slate-light);border-radius:var(--r-lg);padding:18px 16px;text-align:center;cursor:pointer;transition:all .18s;text-decoration:none;color:inherit;display:block}
+    .qa-card:hover{border-color:var(--gold);box-shadow:var(--shadow-md);transform:translateY(-2px)}
+    .qa-icon{font-size:1.6rem;margin-bottom:8px}
+    .qa-label{font-size:.8rem;font-weight:600;color:var(--navy)}
+  </style>
+</head>
+<body>
+<div class="dashboard">
+  <!-- SIDEBAR -->
+  <aside class="sidebar" id="sidebar">
+    <div class="sidebar-header">
+      <div class="brand">
+        <span class="brand-mark">JC</span>
+        <span>J.C. Memorial</span>
+      </div>
+    </div>
+    <nav class="sidebar-nav">
+      <div class="sidebar-section-label">Main</div>
+      <a class="sidebar-link active" href="/dashboard"><span class="nav-icon">🏠</span>Dashboard</a>
+      <a class="sidebar-link admin-only teacher-only" href="/attendance"><span class="nav-icon">✅</span>Attendance</a>
+      <a class="sidebar-link" href="/students"><span class="nav-icon">🎓</span>Students</a>
+      <a class="sidebar-link admin-only teacher-only" href="/classes"><span class="nav-icon">🏫</span>Classes</a>
+      <a class="sidebar-link" href="/notices"><span class="nav-icon">📢</span>Notices</a>
+      <div class="sidebar-section-label admin-only teacher-only">Analytics</div>
+      <a class="sidebar-link admin-only teacher-only" href="/attendance-analytics"><span class="nav-icon">📊</span>Analytics</a>
+      <div class="sidebar-section-label admin-only">Administration</div>
+      <a class="sidebar-link admin-only" href="/user-management"><span class="nav-icon">👥</span>Users</a>
+      <a class="sidebar-link admin-only" href="/admin-dashboard"><span class="nav-icon">🛡️</span>Admin Panel</a>
+      <a class="sidebar-link admin-only" href="/admin/public-content"><span class="nav-icon">🌐</span>Public Content</a>
+      <div class="sidebar-section-label">More</div>
+      <a class="sidebar-link" href="/"><span class="nav-icon">🏡</span>Public Site</a>
+    </nav>
+    <div class="sidebar-footer">
+      <div class="sidebar-user">
+        <div class="sidebar-avatar" id="sidebarAvatar">U</div>
+        <div class="sidebar-user-info">
+          <div class="sidebar-user-name" data-admin-name>User</div>
+          <div class="sidebar-user-role" id="sidebarRole">—</div>
+        </div>
+      </div>
+    </div>
+  </aside>
+
+  <div class="content">
+    <!-- TOPBAR -->
+    <header class="topbar">
+      <div class="topbar-left">
+        <button class="menu-btn" onclick="document.getElementById('sidebar').classList.toggle('open')">☰</button>
+        <div>
+          <div class="page-heading">Dashboard</div>
+          <div class="page-subheading" id="welcomeDate">—</div>
+        </div>
+      </div>
+      <div class="topbar-right">
+        <button id="logoutButton" class="button-danger btn-sm" type="button">Sign Out</button>
+      </div>
+    </header>
+
+    <div class="content-inner">
+      <!-- WELCOME BANNER -->
+      <div class="welcome-banner">
+        <div class="welcome-text">
+          <h2>Good <span id="timeGreeting">Morning</span>, <span data-admin-name>there</span>! 👋</h2>
+          <p>Here's what's happening at J.C. Memorial School today.</p>
+        </div>
+        <div class="welcome-actions">
+          <a href="/notices" class="button-gold btn-sm">📢 Notices</a>
+          <a href="/attendance" class="button-secondary btn-sm admin-only teacher-only">✅ Attendance</a>
+        </div>
+      </div>
+
+      <!-- STATS -->
+      <div class="stats-grid">
+        <div class="stat-card" id="studentCountCard">
+          <span class="stat-icon">🎓</span>
+          <div class="stat-label">Total Students</div>
+          <div class="stat-value" id="studentCount">—</div>
+          <div class="stat-sub">Enrolled this year</div>
+        </div>
+        <div class="stat-card" id="teacherCountCard">
+          <span class="stat-icon">👨‍🏫</span>
+          <div class="stat-label">Total Teachers</div>
+          <div class="stat-value" id="teacherCount">—</div>
+          <div class="stat-sub">Active faculty</div>
+        </div>
+        <div class="stat-card admin-only" id="classCountCard">
+          <span class="stat-icon">🏫</span>
+          <div class="stat-label">Total Classes</div>
+          <div class="stat-value" id="classCount">—</div>
+          <div class="stat-sub">Active classrooms</div>
+        </div>
+        <div class="stat-card" id="noticeCountCard">
+          <span class="stat-icon">📢</span>
+          <div class="stat-label">Notices</div>
+          <div class="stat-value" id="noticeCount">—</div>
+          <div class="stat-sub">This month</div>
+        </div>
+        <div class="stat-card teacher-only" id="myClassCountCard">
+          <span class="stat-icon">📋</span>
+          <div class="stat-label">My Classes</div>
+          <div class="stat-value" id="myClassCount">—</div>
+          <div class="stat-sub">Assigned to you</div>
+        </div>
+        <div class="stat-card student-only" id="myAttendanceCard">
+          <span class="stat-icon">✅</span>
+          <div class="stat-label">My Attendance</div>
+          <div class="stat-value" id="myAttendance">—</div>
+          <div class="stat-sub">This semester</div>
+        </div>
+      </div>
+
+      <!-- QUICK ACTIONS -->
+      <div class="quick-actions admin-only teacher-only">
+        <a href="/attendance" class="qa-card"><div class="qa-icon">✅</div><div class="qa-label">Mark Attendance</div></a>
+        <a href="/students" class="qa-card"><div class="qa-icon">🎓</div><div class="qa-label">View Students</div></a>
+        <a href="/notices" class="qa-card"><div class="qa-icon">📢</div><div class="qa-label">Post Notice</div></a>
+        <a href="/classes" class="qa-card"><div class="qa-icon">🏫</div><div class="qa-label">Manage Classes</div></a>
+        <a href="/attendance-analytics" class="qa-card"><div class="qa-icon">📊</div><div class="qa-label">Analytics</div></a>
+      </div>
+
+      <!-- BOTTOM GRID -->
+      <div class="grid-two">
+        <!-- NOTICES -->
+        <div class="table-card">
+          <div class="panel-header" style="padding:18px 22px;border-bottom:1px solid var(--slate-light)">
+            <div>
+              <div class="panel-title">Latest Notices</div>
+              <div class="panel-sub">Recent school announcements</div>
+            </div>
+            <a class="button-secondary btn-sm" href="/notices">View All</a>
+          </div>
+          <div style="padding:14px 16px" id="latestNotices">
+            <div class="empty-state"><div class="empty-state-icon">📢</div><p>Loading notices…</p></div>
+          </div>
+        </div>
+
+        <!-- STUDENTS TABLE -->
+        <div class="table-card">
+          <div class="panel-header" style="padding:18px 22px;border-bottom:1px solid var(--slate-light)">
+            <div>
+              <div class="panel-title" id="studentsPanelTitle">Recent Students</div>
+              <div class="panel-sub" id="studentsPanelSubtitle">Newest student records</div>
+            </div>
+            <a class="button-secondary btn-sm" id="studentsManageLink" href="/students">Manage</a>
+          </div>
+          <div class="table-wrap" id="studentsTableWrap">
+            <table>
+              <thead><tr><th>Name</th><th>Class</th><th>Roll</th></tr></thead>
+              <tbody id="latestStudentsBody">
+                <tr><td colspan="3" style="text-align:center;padding:24px;color:var(--muted)">Loading…</td></tr>
+              </tbody>
+            </table>
+          </div>
+          <div id="studentDetailsContainer" class="hidden"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<div id="toastWrap" class="toast-wrap"></div>
+<script>
+const h=new Date().getHours();
+document.getElementById('timeGreeting').textContent=h<12?'Morning':h<17?'Afternoon':'Evening';
+document.getElementById('welcomeDate').textContent=new Date().toLocaleDateString('en-IN',{weekday:'long',day:'numeric',month:'long',year:'numeric'});
+</script>
+<script src="/js/api.js"></script>
+<script src="/js/dashboard.js"></script>
+</body>
+</html>

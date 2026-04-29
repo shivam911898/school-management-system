@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Attendance Analytics | School Management</title>
+    <link rel="stylesheet" href="/css/styles.css" />
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/jspdf@2.5.2/dist/jspdf.umd.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/jspdf-autotable@3.8.4/dist/jspdf.plugin.autotable.min.js"></script>
+  </head>
+  <body>
+    <div class="dashboard">
+      <aside class="sidebar">
+        <div class="brand">
+          <span class="brand-mark">SM</span>
+          <span>School Management</span>
+        </div>
+        <nav class="sidebar-nav">
+          <a class="sidebar-link" href="/dashboard">Dashboard</a>
+          <a class="sidebar-link active admin-only teacher-only" href="/attendance-analytics">Analytics</a>
+          <a class="sidebar-link admin-only" href="/user-management">Settings</a>
+          <a class="sidebar-link admin-only teacher-only" href="/classes">Classes</a>
+          <a class="sidebar-link admin-only teacher-only" href="/attendance">Attendance</a>
+          <a class="sidebar-link" href="/students">Students</a>
+          <a class="sidebar-link" href="/notices">Notices</a>
+          <a class="sidebar-link" href="/">Public Home</a>
+        </nav>
+        <div class="sidebar-footer">
+          <div class="muted">Signed in as</div>
+          <strong data-admin-name>Admin</strong>
+        </div>
+      </aside>
+
+      <main class="content">
+        <div class="content-header">
+          <div>
+            <p class="muted">Attendance Insights</p>
+            <h1 class="page-title">Attendance Analytics</h1>
+          </div>
+          <div class="actions">
+            <button id="refreshButton" class="button-secondary" type="button">Refresh</button>
+            <button id="exportButton" class="button" type="button">Export PDF</button>
+            <button id="logoutButton" class="button-danger" type="button">Logout</button>
+          </div>
+        </div>
+
+        <section class="panel">
+          <p id="filterDebugInfo" class="muted" style="margin-top: 0; margin-bottom: 12px;"></p>
+          <div class="form-grid">
+            <div class="field">
+              <label for="classFilter">Class</label>
+              <select id="classFilter">
+                <option value="">All Classes</option>
+              </select>
+            </div>
+            <div class="field">
+              <label for="sectionFilter">Section</label>
+              <select id="sectionFilter">
+                <option value="">All Sections</option>
+                <option value="A">A</option>
+                <option value="B">B</option>
+                <option value="C">C</option>
+              </select>
+            </div>
+            <div class="field">
+              <label for="startDate">Start Date</label>
+              <input id="startDate" type="date" />
+            </div>
+            <div class="field">
+              <label for="endDate">End Date</label>
+              <input id="endDate" type="date" />
+            </div>
+            <div class="field">
+              <label for="thresholdFilter">Low Attendance Threshold (%)</label>
+              <input id="thresholdFilter" type="number" min="1" max="100" value="75" />
+            </div>
+            <div class="field">
+              <label>&nbsp;</label>
+              <button id="applyFiltersButton" class="button-secondary" type="button">Apply Filters</button>
+            </div>
+          </div>
+        </section>
+
+        <section class="stats-grid">
+          <article class="stat-card"><div class="muted">Students</div><div class="stat-value" id="totalStudentsStat">0</div></article>
+          <article class="stat-card"><div class="muted">Avg Attendance</div><div class="stat-value" id="averageAttendanceStat">0%</div></article>
+          <article class="stat-card"><div class="muted">Records</div><div class="stat-value" id="totalRecordsStat">0</div></article>
+          <article class="stat-card"><div class="muted">Low Attendance</div><div class="stat-value" id="lowAttendanceCountStat">0</div></article>
+        </section>
+
+        <section id="lowAttendanceAlert" class="panel hidden">
+          <p id="lowAttendanceAlertText" class="muted"></p>
+        </section>
+        <section id="noDataAlert" class="panel hidden">
+          <p id="noDataAlertText" class="muted"></p>
+        </section>
+
+        <section class="grid-two">
+          <div class="panel"><h2>Class Attendance</h2><canvas id="classAttendanceChart"></canvas></div>
+          <div class="panel"><h2>Status Distribution</h2><canvas id="statusDistributionChart"></canvas></div>
+        </section>
+        <section class="grid-two">
+          <div class="panel"><h2>Monthly Trends</h2><canvas id="monthlyTrendsChart"></canvas></div>
+          <div class="panel"><h2>Top Classes</h2><canvas id="topClassesChart"></canvas></div>
+        </section>
+
+        <section class="table-card">
+          <h2>Low Attendance Students</h2>
+          <div class="table-wrap">
+            <table>
+              <thead>
+                <tr>
+                  <th>Student ID</th><th>Name</th><th>Class</th><th>Section</th><th>Attendance</th><th>Status</th><th>Action</th>
+                </tr>
+              </thead>
+              <tbody id="lowAttendanceTableBody">
+                <tr><td colspan="7">Loading...</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </section>
+      </main>
+    </div>
+
+    <div id="loadingOverlay" class="hidden">Loading...</div>
+    <div id="toastWrap" class="toast-wrap"></div>
+
+    <script src="/js/api.js"></script>
+    <script src="/js/attendance-analytics.js?v=6"></script>
+  </body>
+</html>

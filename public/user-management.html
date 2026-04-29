@@ -1,0 +1,127 @@
+<!DOCTYPE html><html lang="en"><head>
+<meta charset="UTF-8"/><meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+<title>User Management | J.C. Memorial School</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,600;9..40,700&display=swap" rel="stylesheet"/><link rel="stylesheet" href="/css/styles.css"/>
+</head>
+<body>
+<div class="dashboard">
+  <aside class="sidebar" id="sidebar">
+    <div class="sidebar-header"><div class="brand"><span class="brand-mark">JC</span><span>J.C. Memorial</span></div></div>
+    <nav class="sidebar-nav">
+      <div class="sidebar-section-label">Main</div>
+      <a class="sidebar-link" href="/dashboard"><span class="nav-icon">🏠</span>Dashboard</a>
+      <a class="sidebar-link" href="/attendance"><span class="nav-icon">✅</span>Attendance</a>
+      <a class="sidebar-link" href="/students"><span class="nav-icon">🎓</span>Students</a>
+      <a class="sidebar-link" href="/classes"><span class="nav-icon">🏫</span>Classes</a>
+      <a class="sidebar-link" href="/notices"><span class="nav-icon">📢</span>Notices</a>
+      <div class="sidebar-section-label">Analytics</div>
+      <a class="sidebar-link" href="/attendance-analytics"><span class="nav-icon">📊</span>Analytics</a>
+      <div class="sidebar-section-label">Administration</div>
+      <a class="sidebar-link active" href="/user-management"><span class="nav-icon">👥</span>Users</a>
+      <a class="sidebar-link" href="/admin-dashboard"><span class="nav-icon">🛡️</span>Admin Panel</a>
+      <a class="sidebar-link" href="/admin/public-content"><span class="nav-icon">🌐</span>Public Content</a>
+      <div class="sidebar-section-label">More</div>
+      <a class="sidebar-link" href="/"><span class="nav-icon">🏡</span>Public Site</a>
+    </nav>
+    <div class="sidebar-footer">
+      <div class="sidebar-user">
+        <div class="sidebar-avatar" id="sidebarAvatar">A</div>
+        <div class="sidebar-user-info">
+          <div class="sidebar-user-name" data-admin-name>Admin</div>
+          <div class="sidebar-user-role">Administrator</div>
+        </div>
+      </div>
+    </div>
+  </aside>
+  <div class="content">
+    <header class="topbar">
+      <div class="topbar-left">
+        <button class="menu-btn" onclick="document.getElementById('sidebar').classList.toggle('open')">☰</button>
+        <div><div class="page-heading">User Management</div><div class="page-subheading">Manage all system users</div></div>
+      </div>
+      <div class="topbar-right">
+        <button id="addUserBtn" class="button btn-sm">+ Add User</button>
+        <button id="logoutButton" class="button-danger btn-sm">Sign Out</button>
+      </div>
+    </header>
+    <div class="content-inner">
+      <!-- FILTER -->
+      <div style="background:var(--white);border:1px solid var(--slate-light);border-radius:var(--r-lg);padding:16px 20px;margin-bottom:22px;display:flex;gap:12px;flex-wrap:wrap;align-items:flex-end">
+        <div class="field" style="min-width:160px">
+          <label for="roleFilter">Role</label>
+          <select id="roleFilter"><option value="">All Roles</option><option value="admin">Admin</option><option value="teacher">Teacher</option><option value="student">Student</option></select>
+        </div>
+        <div class="field" style="min-width:200px;flex:1">
+          <label for="userSearch">Search</label>
+          <input type="text" id="userSearch" placeholder="Name or email…"/>
+        </div>
+        <button id="filterUsersBtn" class="button-secondary">Filter</button>
+      </div>
+
+      <div class="table-card">
+        <div class="table-wrap">
+          <table>
+            <thead><tr><th>Name</th><th>Email</th><th>Role</th><th>Class/Subject</th><th>Status</th><th>Actions</th></tr></thead>
+            <tbody id="usersTableBody">
+              <tr><td colspan="6" style="text-align:center;padding:32px;color:var(--muted)">Loading users…</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- USER MODAL -->
+<div class="modal-backdrop" id="userModal">
+  <div class="modal" style="max-width:640px">
+    <div class="modal-header">
+      <div class="modal-title" id="userModalTitle">Add User</div>
+      <button class="modal-close" onclick="document.getElementById('userModal').classList.remove('open')">✕</button>
+    </div>
+    <div class="modal-body">
+      <form id="userManagementForm">
+        <input type="hidden" id="userId"/>
+        <div class="form-grid">
+          <div class="field"><label for="uName">Full Name *</label><input type="text" id="uName" required/></div>
+          <div class="field"><label for="uEmail">Email *</label><input type="email" id="uEmail" required/></div>
+          <div class="field"><label for="uPassword">Password</label><input type="password" id="uPassword" placeholder="Leave blank to keep existing"/></div>
+          <div class="field"><label for="user-role">Role *</label>
+            <select id="user-role" required>
+              <option value="">Select Role</option>
+              <option value="admin">Admin</option>
+              <option value="teacher">Teacher</option>
+              <option value="student">Student</option>
+            </select>
+          </div>
+          <div class="field" id="teacherFields" style="display:none"><label for="uSubject">Subject</label><input type="text" id="uSubject"/></div>
+          <div class="field" id="studentClassField" style="display:none"><label for="uClass">Class</label><input type="text" id="uClass"/></div>
+          <div class="field" id="studentRollField" style="display:none"><label for="uRoll">Roll No.</label><input type="text" id="uRoll"/></div>
+        </div>
+      </form>
+    </div>
+    <div class="modal-footer">
+      <button class="button-secondary" onclick="document.getElementById('userModal').classList.remove('open')">Cancel</button>
+      <button class="button" id="saveUserBtn">Save User</button>
+    </div>
+  </div>
+</div>
+
+<div id="toastWrap" class="toast-wrap"></div>
+<script src="/js/api.js"></script>
+<script src="/js/user-management.js"></script>
+<script>
+document.getElementById('user-role')?.addEventListener('change',function(){
+  const r=this.value;
+  document.getElementById('teacherFields').style.display=r==='teacher'?'flex':'none';
+  document.getElementById('studentClassField').style.display=r==='student'?'flex':'none';
+  document.getElementById('studentRollField').style.display=r==='student'?'flex':'none';
+});
+document.getElementById('addUserBtn')?.addEventListener('click',()=>{
+  document.getElementById('userModalTitle').textContent='Add User';
+  document.getElementById('userId').value='';
+  document.getElementById('userManagementForm').reset();
+  document.getElementById('userModal').classList.add('open');
+});
+</script>
+</body></html>

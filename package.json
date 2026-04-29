@@ -1,0 +1,38 @@
+{
+  "name": "school-management-system",
+  "version": "1.0.0",
+  "description": "Production-ready school management system with Node.js, Express, MongoDB, and a responsive frontend.",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "dev": "nodemon server.js",
+    "db:up": "docker compose up -d mongo",
+    "db:down": "docker compose down",
+    "db:logs": "docker compose logs -f mongo",
+    "test:rbac": "node scripts/rbacSmokeTest.js",
+    "password:reset": "node scripts/resetUserPassword.js",
+    "verify:deploy": "node scripts/postDeployVerify.js"
+  },
+  "dependencies": {
+    "bcrypt": "^5.1.1",
+    "cookie-parser": "^1.4.7",
+    "dotenv": "^16.6.1",
+    "express": "^4.21.2",
+    "express-mongo-sanitize": "^2.2.0",
+    "express-rate-limit": "^7.4.1",
+    "express-validator": "^7.2.1",
+    "firebase-admin": "^13.8.0",
+    "helmet": "^8.0.0",
+    "hpp": "^0.2.3",
+    "jsonwebtoken": "^9.0.2",
+    "mongoose": "^8.7.2",
+    "morgan": "^1.10.0",
+    "nodemailer": "^6.9.7",
+    "pino": "^10.3.1",
+    "pino-http": "^11.0.0",
+    "twilio": "^4.19.3"
+  },
+  "devDependencies": {
+    "nodemon": "^3.1.7"
+  }
+}

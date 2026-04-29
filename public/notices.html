@@ -1,0 +1,136 @@
+<!DOCTYPE html><html lang="en"><head>
+<meta charset="UTF-8"/><meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+<title>Notices | J.C. Memorial School</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,600;9..40,700&display=swap" rel="stylesheet"/><link rel="stylesheet" href="/css/styles.css"/>
+<style>
+.notice-list{display:flex;flex-direction:column;gap:12px}
+.notice-full-card{background:var(--white);border:1.5px solid var(--slate-light);border-radius:var(--r-lg);padding:20px 22px;transition:all .18s;display:flex;gap:16px;align-items:flex-start}
+.notice-full-card:hover{border-color:var(--gold);box-shadow:var(--shadow-md)}
+.notice-full-card.urgent{border-left:4px solid var(--danger)}
+.notice-type-icon{width:44px;height:44px;border-radius:var(--r-sm);display:grid;place-items:center;font-size:1.2rem;flex-shrink:0;background:var(--gold-pale)}
+.notice-full-card.urgent .notice-type-icon{background:var(--danger-bg)}
+.notice-card-actions{display:flex;gap:8px;margin-top:10px;flex-wrap:wrap}
+</style>
+</head>
+<body>
+<div class="dashboard">
+  <aside class="sidebar" id="sidebar">
+    <div class="sidebar-header"><div class="brand"><span class="brand-mark">JC</span><span>J.C. Memorial</span></div></div>
+    <nav class="sidebar-nav">
+      <div class="sidebar-section-label">Main</div>
+      <a class="sidebar-link" href="/dashboard"><span class="nav-icon">🏠</span>Dashboard</a>
+      <a class="sidebar-link admin-only teacher-only" href="/attendance"><span class="nav-icon">✅</span>Attendance</a>
+      <a class="sidebar-link" href="/students"><span class="nav-icon">🎓</span>Students</a>
+      <a class="sidebar-link admin-only teacher-only" href="/classes"><span class="nav-icon">🏫</span>Classes</a>
+      <a class="sidebar-link active" href="/notices"><span class="nav-icon">📢</span>Notices</a>
+      <div class="sidebar-section-label admin-only teacher-only">Analytics</div>
+      <a class="sidebar-link admin-only teacher-only" href="/attendance-analytics"><span class="nav-icon">📊</span>Analytics</a>
+      <div class="sidebar-section-label admin-only">Administration</div>
+      <a class="sidebar-link admin-only" href="/user-management"><span class="nav-icon">👥</span>Users</a>
+      <a class="sidebar-link admin-only" href="/admin-dashboard"><span class="nav-icon">🛡️</span>Admin Panel</a>
+      <div class="sidebar-section-label">More</div>
+      <a class="sidebar-link" href="/"><span class="nav-icon">🏡</span>Public Site</a>
+    </nav>
+    <div class="sidebar-footer">
+      <div class="sidebar-user">
+        <div class="sidebar-avatar" id="sidebarAvatar">U</div>
+        <div class="sidebar-user-info">
+          <div class="sidebar-user-name" data-admin-name>User</div>
+          <div class="sidebar-user-role" id="sidebarRole">—</div>
+        </div>
+      </div>
+    </div>
+  </aside>
+  <div class="content">
+    <header class="topbar">
+      <div class="topbar-left">
+        <button class="menu-btn" onclick="document.getElementById('sidebar').classList.toggle('open')">☰</button>
+        <div><div class="page-heading">Notices</div><div class="page-subheading">School announcements &amp; communications</div></div>
+      </div>
+      <div class="topbar-right">
+        <button id="createNoticeBtn" class="button btn-sm admin-only teacher-only">+ New Notice</button>
+        <button id="logoutButton" class="button-danger btn-sm">Sign Out</button>
+      </div>
+    </header>
+    <div class="content-inner">
+      <!-- FILTER -->
+      <div style="background:var(--white);border:1px solid var(--slate-light);border-radius:var(--r-lg);padding:16px 20px;margin-bottom:22px;display:flex;gap:12px;flex-wrap:wrap;align-items:flex-end">
+        <div class="field" style="min-width:160px">
+          <label for="noticeTypeFilter">Type</label>
+          <select id="noticeTypeFilter">
+            <option value="">All Types</option>
+            <option value="general">General</option>
+            <option value="exam">Exam</option>
+            <option value="event">Event</option>
+            <option value="urgent">Urgent</option>
+            <option value="holiday">Holiday</option>
+          </select>
+        </div>
+        <div class="field" style="min-width:200px">
+          <label for="noticeSearch">Search</label>
+          <input type="text" id="noticeSearch" placeholder="Search notices…"/>
+        </div>
+        <button id="filterNoticesBtn" class="button-secondary">Filter</button>
+      </div>
+
+      <!-- NOTICES LIST -->
+      <div class="notice-list" id="noticesList">
+        <div class="empty-state"><div class="empty-state-icon">📢</div><p>Loading notices…</p></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- CREATE/EDIT MODAL -->
+<div class="modal-backdrop" id="noticeModal">
+  <div class="modal">
+    <div class="modal-header">
+      <div class="modal-title" id="noticeModalTitle">New Notice</div>
+      <button class="modal-close" onclick="closeNoticeModal()">✕</button>
+    </div>
+    <div class="modal-body">
+      <form id="noticeForm" class="form-stack" style="display:flex;flex-direction:column;gap:16px">
+        <input type="hidden" id="noticeId"/>
+        <div class="field"><label for="noticeTitle">Title *</label><input type="text" id="noticeTitle" required/></div>
+        <div class="field"><label for="noticeContent">Content *</label><textarea id="noticeContent" rows="4" required></textarea></div>
+        <div class="form-grid cols-2">
+          <div class="field"><label for="noticeType">Type</label>
+            <select id="noticeType">
+              <option value="general">General</option>
+              <option value="exam">Exam</option>
+              <option value="event">Event</option>
+              <option value="urgent">Urgent</option>
+              <option value="holiday">Holiday</option>
+            </select>
+          </div>
+          <div class="field"><label for="noticeAudience">Audience</label>
+            <select id="noticeAudience">
+              <option value="all">All</option>
+              <option value="students">Students Only</option>
+              <option value="teachers">Teachers Only</option>
+              <option value="parents">Parents/Public</option>
+            </select>
+          </div>
+        </div>
+      </form>
+    </div>
+    <div class="modal-footer">
+      <button class="button-secondary" onclick="closeNoticeModal()">Cancel</button>
+      <button class="button" id="saveNoticeBtn">Save Notice</button>
+    </div>
+  </div>
+</div>
+
+<div id="toastWrap" class="toast-wrap"></div>
+<script src="/js/api.js"></script>
+<script src="/js/notices.js"></script>
+<script>
+function closeNoticeModal(){document.getElementById('noticeModal').classList.remove('open')}
+document.getElementById('createNoticeBtn')?.addEventListener('click',()=>{
+  document.getElementById('noticeModalTitle').textContent='New Notice';
+  document.getElementById('noticeId').value='';
+  document.getElementById('noticeForm').reset();
+  document.getElementById('noticeModal').classList.add('open');
+});
+</script>
+</body></html>

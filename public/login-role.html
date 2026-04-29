@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+  <title>Login | J.C. Memorial School</title>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,600;9..40,700&display=swap" rel="stylesheet"/>
+  <link rel="stylesheet" href="/css/styles.css"/>
+  <style>
+    .form-stack{display:flex;flex-direction:column;gap:18px}
+    .pass-wrap{position:relative}
+    .pass-toggle{position:absolute;right:12px;top:50%;transform:translateY(-50%);background:none;border:none;cursor:pointer;color:var(--muted);font-size:.85rem;padding:4px}
+    .link-row{display:flex;align-items:center;flex-wrap:wrap;gap:4px 14px;font-size:.82rem;color:var(--muted);margin-top:4px}
+    .link-row a{color:var(--navy-light);font-weight:500;transition:color .15s}
+    .link-row a:hover{color:var(--gold)}
+    .login-err{background:var(--danger-bg);border:1px solid rgba(192,57,43,.25);color:var(--danger);padding:12px 14px;border-radius:var(--r-sm);font-size:.88rem;display:none;margin-bottom:4px}
+    .login-err.show{display:block}
+    .btn-full{width:100%;justify-content:center;padding:13px 20px;font-size:.95rem}
+    .setup-hint{background:var(--gold-pale);border:1px solid rgba(200,155,60,.3);color:var(--warn);padding:12px 14px;border-radius:var(--r-sm);font-size:.85rem;display:none}
+    .setup-hint.show{display:block}
+  </style>
+</head>
+<body>
+<div class="auth-layout">
+  <!-- LEFT PANEL -->
+  <div class="auth-visual">
+    <div class="auth-visual-content">
+      <div class="auth-visual-logo">JC</div>
+      <div class="auth-visual-title" id="visualTitle">Secure Portal Login</div>
+      <p class="auth-visual-sub" id="visualSub">Access your personalized dashboard with your assigned credentials.</p>
+      <div class="auth-features" id="visualFeatures">
+        <div class="auth-feature"><div class="auth-feature-icon">📊</div><div class="auth-feature-text">Real-time data and reports</div></div>
+        <div class="auth-feature"><div class="auth-feature-icon">🔔</div><div class="auth-feature-text">Instant notifications and alerts</div></div>
+        <div class="auth-feature"><div class="auth-feature-icon">🔒</div><div class="auth-feature-text">Secure, role-based access</div></div>
+      </div>
+    </div>
+  </div>
+  <!-- RIGHT FORM -->
+  <div class="auth-form-side">
+    <div class="auth-card">
+      <div class="login-role-banner" id="roleBanner" data-role="default">
+        <div class="login-role-icon" id="roleIcon">🔐</div>
+        <div>
+          <div class="login-role-badge" id="roleBadge">Secure Portal</div>
+          <div class="login-role-hint" id="roleHint">Use your assigned credentials to continue.</div>
+        </div>
+      </div>
+
+      <div class="auth-card-title" id="loginHeading">Sign In</div>
+      <p class="auth-card-sub">Enter your credentials to access your dashboard.</p>
+
+      <div class="setup-hint" id="setupHint"></div>
+
+      <div class="form-stack">
+        <div class="login-err" id="loginErr"></div>
+        <form id="loginForm" autocomplete="off">
+          <div class="form-stack">
+            <div class="field">
+              <label for="login-email">Email Address</label>
+              <input id="login-email" name="email" type="email" placeholder="you@school.edu" required/>
+            </div>
+            <div class="field">
+              <label for="login-password">Password</label>
+              <div class="pass-wrap">
+                <input id="login-password" name="password" type="password" placeholder="Enter your password" required/>
+                <button type="button" class="pass-toggle" onclick="togglePass()">👁</button>
+              </div>
+            </div>
+            <button class="button button-gold btn-full" type="submit" id="loginBtn">Sign In →</button>
+          </div>
+        </form>
+        <div class="link-row">
+          <a href="/login">← Change Role</a>
+          <span>·</span>
+          <a href="/forgot-password">Forgot Password?</a>
+          <span>·</span>
+          <a href="/forgot-password-sms">Reset via SMS</a>
+        </div>
+      </div>
+
+      <!-- REGISTRATION PANEL (setup mode) -->
+      <div id="registerPanel" class="hidden" style="margin-top:24px;padding-top:24px;border-top:1px solid var(--slate-light)">
+        <div class="auth-card-title" style="font-size:1.3rem;margin-bottom:6px">First-Time Setup</div>
+        <p style="font-size:.85rem;color:var(--muted);margin-bottom:18px">No admin exists yet. Create the first administrator account.</p>
+        <form id="registerForm" autocomplete="off">
+          <div class="form-stack">
+            <div class="field"><label for="reg-name">Full Name</label><input id="reg-name" name="name" type="text" required/></div>
+            <div class="field"><label for="reg-email">Email</label><input id="reg-email" name="email" type="email" required/></div>
+            <div class="field"><label for="reg-password">Password</label><input id="reg-password" name="password" type="password" required/></div>
+            <div id="teacherFields" class="hidden"><div class="field"><label for="reg-subject">Subject</label><input id="reg-subject" name="subject" type="text"/></div></div>
+            <div id="studentFields" class="hidden">
+              <div class="form-grid cols-2" style="margin-bottom:0">
+                <div class="field"><label for="reg-class">Class</label><input id="reg-class" name="class" type="text"/></div>
+                <div class="field"><label for="reg-roll">Roll No.</label><input id="reg-roll" name="rollNumber" type="text"/></div>
+              </div>
+            </div>
+            <button class="button btn-full" type="submit">Create Admin Account</button>
+          </div>
+        </form>
+      </div>
+
+    </div>
+  </div>
+</div>
+<div id="toastWrap" class="toast-wrap"></div>
+<script src="/js/api.js"></script>
+<script src="/js/auth.js"></script>
+<script>
+function togglePass(){
+  const i=document.getElementById('login-password');
+  i.type=i.type==='password'?'text':'password';
+}
+// Enhance auth.js error display
+const origSubmit=document.getElementById('loginForm').onsubmit;
+document.getElementById('loginForm').addEventListener('submit',function(e){
+  document.getElementById('loginErr').classList.remove('show');
+});
+</script>
+</body>
+</html>

@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>About | J.C. Memorial School</title>
+    <link rel="stylesheet" href="/public-site/style.css">
+</head>
+
+<body data-page="about">
+    <div class="site-shell">
+        <header id="public-header"></header>
+
+        <main class="page-main">
+            <section class="container section-card">
+                <h2>About Our School</h2>
+                <div id="about-school"></div>
+            </section>
+        </main>
+
+        <footer id="public-footer"></footer>
+    </div>
+    <script>
+        fetch('/public/about')
+            .then(res => res.json())
+            .then(data => {
+                const about = data.about || {};
+                document.getElementById('about-school').innerHTML = `
+                    <h3>${about.schoolName || 'J.C. Memorial School, Nagra, Ballia'}</h3>
+                    <p>${about.description || ''}</p>
+          <h4>Vision</h4>
+                    <p>${about.vision || ''}</p>
+          <h4>Mission</h4>
+                    <p>${about.mission || ''}</p>
+        `;
+            });
+    </script>
+    <script src="/public-site/layout.js"></script>
+</body>
+
+</html>

@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+  <title>Login Portal | J.C. Memorial School</title>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,600;9..40,700&display=swap" rel="stylesheet"/>
+  <link rel="stylesheet" href="/css/styles.css"/>
+</head>
+<body>
+<div class="auth-layout">
+  <!-- LEFT VISUAL PANEL -->
+  <div class="auth-visual">
+    <div class="auth-visual-content">
+      <div class="auth-visual-logo">JC</div>
+      <div class="auth-visual-title">J.C. Memorial School</div>
+      <p class="auth-visual-sub">Nagra, Ballia — Empowering students with knowledge, skills, and values since our founding.</p>
+      <div class="auth-features">
+        <div class="auth-feature"><div class="auth-feature-icon">📚</div><div class="auth-feature-text">CBSE-aligned curriculum with experienced faculty</div></div>
+        <div class="auth-feature"><div class="auth-feature-icon">📊</div><div class="auth-feature-text">Real-time attendance &amp; progress tracking</div></div>
+        <div class="auth-feature"><div class="auth-feature-icon">🔔</div><div class="auth-feature-text">Instant notifications for parents &amp; students</div></div>
+        <div class="auth-feature"><div class="auth-feature-icon">🔒</div><div class="auth-feature-text">Secure role-based access for everyone</div></div>
+      </div>
+    </div>
+  </div>
+  <!-- RIGHT FORM PANEL -->
+  <div class="auth-form-side">
+    <div class="auth-card">
+      <div style="margin-bottom:28px">
+        <div class="auth-card-title">Welcome Back</div>
+        <p class="auth-card-sub">Choose your portal to sign in securely.</p>
+      </div>
+      <div class="role-portal-grid">
+        <a href="/login/admin" class="role-portal-card">
+          <div class="role-portal-icon">🛡️</div>
+          <div class="role-portal-title">Admin Login</div>
+          <p class="role-portal-desc">Manage school operations, notices, classes, and users.</p>
+        </a>
+        <a href="/login/teacher" class="role-portal-card">
+          <div class="role-portal-icon">🧑‍🏫</div>
+          <div class="role-portal-title">Teacher Login</div>
+          <p class="role-portal-desc">Track attendance, students, and classroom activity.</p>
+        </a>
+        <a href="/login/student" class="role-portal-card">
+          <div class="role-portal-icon">🎓</div>
+          <div class="role-portal-title">Student Login</div>
+          <p class="role-portal-desc">View dashboard, attendance, and school updates.</p>
+        </a>
+        <a href="/" class="role-portal-card">
+          <div class="role-portal-icon">🏫</div>
+          <div class="role-portal-title">Public Site</div>
+          <p class="role-portal-desc">Explore admissions, fees, and announcements.</p>
+        </a>
+      </div>
+      <p style="text-align:center;margin-top:24px;font-size:.82rem;color:var(--muted)">
+        Need help? Contact the school office during working hours.
+      </p>
+    </div>
+  </div>
+</div>
+<script src="/js/api.js"></script>
+<script>
+document.addEventListener('DOMContentLoaded',async()=>{
+  try{
+    const me=await api.get('/api/auth/me');
+    if(me?.user?.role) window.location.href='/dashboard';
+  }catch(_){}
+});
+</script>
+</body>
+</html>

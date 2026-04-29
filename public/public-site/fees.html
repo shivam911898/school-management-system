@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fee Structure | J.C. Memorial School</title>
+    <link rel="stylesheet" href="/public-site/style.css">
+</head>
+
+<body data-page="fees">
+    <div class="site-shell">
+        <header id="public-header"></header>
+
+        <main class="page-main">
+            <section class="container section-card">
+                <h2>Fee Structure</h2>
+                <div id="fee-structure" class="table-wrap"></div>
+            </section>
+        </main>
+
+        <footer id="public-footer"></footer>
+    </div>
+    <script>
+        fetch('/public/fees')
+            .then(res => res.json())
+            .then(data => {
+                document.getElementById('fee-structure').innerHTML = `
+          <table>
+            <thead>
+              <tr>
+                <th>Class</th>
+                <th>Amount</th>
+                <th>Details</th>
+              </tr>
+            </thead>
+            <tbody>
+              ${(data.fees || []).map(row => `
+                <tr>
+                  <td>${row.className}</td>
+                  <td>₹${row.amount}</td>
+                  <td>${row.details}</td>
+                </tr>
+              `).join('')}
+            </tbody>
+          </table>
+        `;
+            });
+    </script>
+    <script src="/public-site/layout.js"></script>
+</body>
+
+</html>

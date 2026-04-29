@@ -1,0 +1,425 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+  <title>J.C. Memorial School — Nagra, Ballia</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com"/>
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500;9..40,600;9..40,700&display=swap" rel="stylesheet"/>
+  <style>
+    *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+    :root{--navy:#0b1e3d;--navy-mid:#16306e;--gold:#c89b3c;--gold-light:#f0c96b;--gold-pale:#fdf6e3;--white:#fff;--slate:#6b7a99;--slate-light:#d4dcea;--bg:#f0f3f9;--text:#0b1e3d;--muted:#5a6a8a;--danger:#c0392b;--success:#1a7a4a;--r-sm:8px;--r-md:14px;--r-lg:20px;--r-xl:28px}
+    html{scroll-behavior:smooth}
+    body{font-family:'DM Sans',sans-serif;background:var(--white);color:var(--text);-webkit-font-smoothing:antialiased;overflow-x:hidden}
+    a{color:inherit;text-decoration:none}
+    img{display:block;max-width:100%}
+    nav{position:fixed;top:0;left:0;right:0;z-index:100;background:rgba(11,30,61,.97);backdrop-filter:blur(12px);box-shadow:0 4px 24px rgba(0,0,0,.2)}
+    .nav-inner{max-width:1180px;margin:0 auto;padding:0 24px;height:72px;display:flex;align-items:center;justify-content:space-between}
+    .nav-logo{display:flex;align-items:center;gap:12px;color:var(--white);font-weight:700;font-size:.95rem}
+    .nav-logo-mark{width:42px;height:42px;border-radius:var(--r-sm);background:linear-gradient(135deg,var(--gold),var(--gold-light));display:grid;place-items:center;font-family:'DM Serif Display',serif;color:var(--navy);font-size:1.1rem;flex-shrink:0;box-shadow:0 2px 8px rgba(200,155,60,.4)}
+    .nav-links{display:flex;align-items:center;gap:4px}
+    .nav-link{color:rgba(255,255,255,.75);padding:8px 14px;border-radius:99px;font-size:.875rem;font-weight:500;transition:all .15s}
+    .nav-link:hover{color:var(--white);background:rgba(255,255,255,.1)}
+    .nav-cta{background:linear-gradient(135deg,var(--gold),var(--gold-light));color:var(--navy);padding:8px 20px;border-radius:99px;font-weight:700;font-size:.875rem;transition:all .15s;box-shadow:0 2px 10px rgba(200,155,60,.35)}
+    .nav-cta:hover{box-shadow:0 4px 18px rgba(200,155,60,.5);transform:translateY(-1px)}
+    .menu-toggle{display:none;background:none;border:none;color:var(--white);font-size:1.4rem;cursor:pointer;padding:8px}
+    .mobile-menu{display:none;flex-direction:column;gap:4px;padding:16px 24px 20px;background:var(--navy);position:fixed;top:72px;left:0;right:0;z-index:99;border-top:1px solid rgba(255,255,255,.1)}
+    .mobile-menu.open{display:flex}
+    .mobile-menu .nav-link{padding:12px 14px;width:100%}
+    .hero{min-height:100vh;background:var(--navy);position:relative;display:flex;align-items:center;overflow:hidden;padding-top:72px}
+    .hero-bg{position:absolute;inset:0;background:radial-gradient(ellipse at 15% 85%,rgba(200,155,60,.18) 0%,transparent 45%),radial-gradient(ellipse at 85% 15%,rgba(42,74,158,.35) 0%,transparent 50%),var(--navy)}
+    .hero-grid-bg{position:absolute;inset:0;background-image:linear-gradient(rgba(255,255,255,.02) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.02) 1px,transparent 1px);background-size:48px 48px;mask-image:radial-gradient(ellipse at center,black 0%,transparent 70%)}
+    .hero-content{max-width:1180px;margin:0 auto;padding:40px 24px;position:relative;z-index:1;width:100%}
+    .hero-layout{display:grid;grid-template-columns:1fr 1fr;align-items:center;gap:64px;min-height:calc(100vh - 112px)}
+    .hero-tag{display:inline-flex;align-items:center;gap:8px;padding:6px 14px;border-radius:99px;background:rgba(200,155,60,.15);border:1px solid rgba(200,155,60,.3);color:var(--gold-light);font-size:.8rem;font-weight:600;letter-spacing:.06em;text-transform:uppercase;margin-bottom:24px}
+    .hero-dot{width:6px;height:6px;border-radius:50%;background:var(--gold);animation:pulse 2s infinite}
+    @keyframes pulse{0%,100%{opacity:1;transform:scale(1)}50%{opacity:.5;transform:scale(.8)}}
+    .hero-h1{font-family:'DM Serif Display',serif;font-size:clamp(2.4rem,4vw,3.8rem);color:var(--white);line-height:1.1;margin-bottom:20px}
+    .hero-h1 em{color:var(--gold-light);font-style:normal;display:block}
+    .hero-sub{font-size:1.05rem;color:rgba(255,255,255,.6);line-height:1.7;margin-bottom:36px;max-width:480px}
+    .hero-actions{display:flex;align-items:center;gap:14px;flex-wrap:wrap}
+    .hero-btn-p{background:linear-gradient(135deg,var(--gold),var(--gold-light));color:var(--navy);padding:14px 28px;border-radius:var(--r-md);font-weight:700;font-size:.95rem;box-shadow:0 4px 20px rgba(200,155,60,.4);transition:all .2s;display:inline-flex;align-items:center;gap:8px}
+    .hero-btn-p:hover{box-shadow:0 8px 32px rgba(200,155,60,.5);transform:translateY(-2px)}
+    .hero-btn-s{color:rgba(255,255,255,.8);padding:14px 28px;border-radius:var(--r-md);font-weight:600;font-size:.95rem;border:1.5px solid rgba(255,255,255,.2);transition:all .2s;display:inline-flex;align-items:center;gap:8px}
+    .hero-btn-s:hover{border-color:rgba(255,255,255,.5);color:var(--white);background:rgba(255,255,255,.05)}
+    .hero-stats{display:flex;gap:32px;margin-top:48px;flex-wrap:wrap}
+    .hero-stat-num{font-family:'DM Serif Display',serif;font-size:2rem;color:var(--white);line-height:1}
+    .hero-stat-lbl{font-size:.8rem;color:rgba(255,255,255,.5);margin-top:2px}
+    .hero-divider{width:1px;background:rgba(255,255,255,.15)}
+    .portal-card{background:rgba(255,255,255,.08);backdrop-filter:blur(12px);border:1px solid rgba(255,255,255,.15);border-radius:var(--r-xl);padding:28px;box-shadow:0 24px 64px rgba(0,0,0,.3);position:relative}
+    .portal-badge{position:absolute;top:-16px;right:-16px;background:linear-gradient(135deg,var(--gold),var(--gold-light));color:var(--navy);padding:10px 16px;border-radius:var(--r-md);font-weight:700;font-size:.82rem;box-shadow:0 4px 16px rgba(200,155,60,.45);animation:floatB 3s ease-in-out infinite}
+    @keyframes floatB{0%,100%{transform:translateY(0)}50%{transform:translateY(-6px)}}
+    .portal-title{font-family:'DM Serif Display',serif;font-size:1.3rem;color:var(--white);margin-bottom:6px}
+    .portal-sub{font-size:.85rem;color:rgba(255,255,255,.55);margin-bottom:20px}
+    .portal-list{display:flex;flex-direction:column;gap:10px}
+    .portal-item{display:flex;align-items:center;gap:12px;padding:14px 16px;border-radius:var(--r-md);background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.1);transition:all .18s;cursor:pointer;text-decoration:none}
+    .portal-item:hover{background:rgba(200,155,60,.15);border-color:rgba(200,155,60,.35);transform:translateX(4px)}
+    .portal-icon{width:40px;height:40px;border-radius:var(--r-sm);display:grid;place-items:center;font-size:1.1rem;flex-shrink:0;background:rgba(255,255,255,.1)}
+    .portal-name{font-weight:600;color:var(--white);font-size:.9rem}
+    .portal-desc{font-size:.78rem;color:rgba(255,255,255,.5)}
+    .portal-arrow{margin-left:auto;color:rgba(255,255,255,.3);font-size:.85rem;transition:transform .15s}
+    .portal-item:hover .portal-arrow{transform:translateX(3px);color:var(--gold-light)}
+    .marquee-wrap{background:var(--gold);overflow:hidden;padding:12px 0}
+    .marquee-track{display:flex;animation:marquee 25s linear infinite;width:max-content}
+    .marquee-item{padding:0 32px;color:var(--navy);font-weight:700;font-size:.85rem;letter-spacing:.04em;white-space:nowrap;display:flex;align-items:center;gap:12px}
+    .marquee-item::after{content:'✦';opacity:.4}
+    @keyframes marquee{0%{transform:translateX(0)}100%{transform:translateX(-50%)}}
+    .section{padding:96px 0}
+    .section-alt{background:var(--bg)}
+    .container{max-width:1180px;margin:0 auto;padding:0 24px}
+    .sec-tag{display:inline-flex;align-items:center;gap:6px;padding:5px 12px;background:rgba(200,155,60,.12);border:1px solid rgba(200,155,60,.25);border-radius:99px;color:var(--gold);font-size:.75rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;margin-bottom:14px}
+    .sec-title{font-family:'DM Serif Display',serif;font-size:clamp(1.8rem,3vw,2.8rem);color:var(--navy);line-height:1.2;margin-bottom:14px}
+    .sec-sub{font-size:1rem;color:var(--muted);max-width:520px;line-height:1.7}
+    .features-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:24px;margin-top:56px}
+    .feat-card{padding:28px;border-radius:var(--r-xl);border:1.5px solid var(--slate-light);background:var(--white);transition:all .2s}
+    .feat-card:hover{border-color:var(--gold);box-shadow:0 12px 40px rgba(200,155,60,.12);transform:translateY(-4px)}
+    .feat-icon{width:52px;height:52px;border-radius:var(--r-md);background:linear-gradient(135deg,rgba(11,30,61,.07),rgba(11,30,61,.03));display:grid;place-items:center;font-size:1.4rem;margin-bottom:18px}
+    .feat-title{font-family:'DM Serif Display',serif;font-size:1.15rem;color:var(--navy);margin-bottom:8px}
+    .feat-desc{font-size:.88rem;color:var(--muted);line-height:1.6}
+    .stats-banner{background:linear-gradient(135deg,var(--navy) 0%,var(--navy-mid) 100%);padding:72px 0;position:relative;overflow:hidden}
+    .stats-banner::before{content:'';position:absolute;width:400px;height:400px;background:radial-gradient(circle,rgba(200,155,60,.15) 0%,transparent 65%);top:-100px;right:-100px;border-radius:50%;pointer-events:none}
+    .stats-banner-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:24px}
+    .stat-b-item{text-align:center;padding:24px}
+    .stat-b-num{font-family:'DM Serif Display',serif;font-size:3rem;color:var(--gold-light);line-height:1;margin-bottom:8px}
+    .stat-b-lbl{font-size:.88rem;color:rgba(255,255,255,.6);letter-spacing:.04em}
+    .ann-list{display:flex;flex-direction:column;gap:14px;margin-top:40px}
+    .ann-card{background:var(--white);border:1.5px solid var(--slate-light);border-radius:var(--r-lg);padding:20px 22px;display:flex;gap:16px;transition:all .18s}
+    .ann-card:hover{border-color:var(--gold);box-shadow:0 6px 24px rgba(11,30,61,.08)}
+    .ann-date{flex-shrink:0;width:52px;height:52px;border-radius:var(--r-md);background:linear-gradient(135deg,var(--navy),var(--navy-mid));display:flex;flex-direction:column;align-items:center;justify-content:center;color:var(--white)}
+    .ann-day{font-family:'DM Serif Display',serif;font-size:1.3rem;line-height:1}
+    .ann-mon{font-size:.65rem;text-transform:uppercase;letter-spacing:.06em;opacity:.7}
+    .ann-title{font-weight:700;color:var(--navy);margin-bottom:4px}
+    .ann-desc{font-size:.85rem;color:var(--muted);line-height:1.5}
+    .urgent-badge{display:inline-flex;align-items:center;gap:4px;padding:2px 8px;border-radius:99px;font-size:.7rem;font-weight:700;margin-left:8px;background:rgba(192,57,43,.1);color:var(--danger)}
+    .fees-table-wrap{margin-top:40px;overflow-x:auto}
+    .fees-tbl{width:100%;border-collapse:collapse;font-size:.9rem}
+    .fees-tbl thead th{padding:14px 20px;text-align:left;font-size:.75rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);background:var(--bg);border-bottom:2px solid var(--slate-light)}
+    .fees-tbl tbody td{padding:14px 20px;border-bottom:1px solid rgba(212,220,234,.5);vertical-align:middle}
+    .fees-tbl tbody tr:hover{background:var(--gold-pale)}
+    .fees-tbl tbody tr:last-child td{border-bottom:none}
+    .fee-amt{font-family:'DM Serif Display',serif;font-size:1.1rem;color:var(--navy)}
+    .admission-cta{background:var(--gold-pale);border:1.5px solid rgba(200,155,60,.3);border-radius:var(--r-xl);padding:56px 48px;display:grid;grid-template-columns:1fr auto;align-items:center;gap:40px}
+    .cta-title{font-family:'DM Serif Display',serif;font-size:2rem;color:var(--navy);margin-bottom:10px}
+    .cta-sub{color:var(--muted);font-size:.95rem;line-height:1.6}
+    .cta-btns{display:flex;gap:12px;flex-direction:column;align-items:flex-start}
+    .btn-cta{display:inline-flex;align-items:center;gap:8px;padding:14px 28px;border-radius:var(--r-md);font-weight:700;font-size:.95rem;transition:all .18s;white-space:nowrap}
+    .btn-p{background:linear-gradient(135deg,var(--navy),var(--navy-mid));color:var(--white);box-shadow:0 4px 16px rgba(11,30,61,.2)}
+    .btn-p:hover{transform:translateY(-2px);box-shadow:0 8px 24px rgba(11,30,61,.3)}
+    .btn-o{border:1.5px solid var(--navy);color:var(--navy);background:transparent}
+    .btn-o:hover{background:var(--navy);color:var(--white)}
+    footer{background:var(--navy);padding:64px 0 0;color:rgba(255,255,255,.7)}
+    .footer-grid{display:grid;grid-template-columns:2fr 1fr 1fr 1fr;gap:40px;margin-bottom:48px}
+    .footer-logo{display:flex;align-items:center;gap:12px;margin-bottom:16px}
+    .footer-mark{width:42px;height:42px;border-radius:var(--r-sm);background:linear-gradient(135deg,var(--gold),var(--gold-light));display:grid;place-items:center;font-family:'DM Serif Display',serif;font-size:1rem;color:var(--navy);flex-shrink:0}
+    .footer-name{font-weight:700;color:var(--white);font-size:.95rem;line-height:1.3}
+    .footer-tag{font-size:.85rem;line-height:1.6;max-width:300px;margin-bottom:24px}
+    .footer-contacts{display:flex;flex-direction:column;gap:8px}
+    .footer-ci{display:flex;align-items:center;gap:8px;font-size:.82rem;color:rgba(255,255,255,.55)}
+    .footer-cicon{width:28px;height:28px;border-radius:var(--r-sm);background:rgba(255,255,255,.08);display:grid;place-items:center;font-size:.85rem;flex-shrink:0}
+    .footer-h{font-size:.75rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:rgba(255,255,255,.35);margin-bottom:16px}
+    .footer-links{display:flex;flex-direction:column;gap:10px}
+    .footer-lnk{font-size:.85rem;color:rgba(255,255,255,.55);transition:color .15s}
+    .footer-lnk:hover{color:var(--gold-light)}
+    .footer-bot{border-top:1px solid rgba(255,255,255,.08);padding:20px 0;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px;font-size:.8rem;color:rgba(255,255,255,.3)}
+    @media(max-width:900px){
+      .hero-layout{grid-template-columns:1fr;gap:40px}
+      .hero-visual{display:none}
+      .features-grid{grid-template-columns:1fr 1fr}
+      .stats-banner-grid{grid-template-columns:1fr 1fr}
+      .footer-grid{grid-template-columns:1fr 1fr}
+      .admission-cta{grid-template-columns:1fr;text-align:center}
+      .nav-links{display:none}
+      .menu-toggle{display:block}
+      .cta-btns{align-items:center;width:100%}
+    }
+    @media(max-width:600px){
+      .features-grid{grid-template-columns:1fr}
+      .stats-banner-grid{grid-template-columns:1fr 1fr}
+      .footer-grid{grid-template-columns:1fr}
+    }
+  </style>
+</head>
+<body>
+
+<nav>
+  <div class="nav-inner">
+    <a class="nav-logo" href="/">
+      <div class="nav-logo-mark">JC</div>
+      <span>J.C. Memorial School</span>
+    </a>
+    <div class="nav-links">
+      <a class="nav-link" href="/about">About</a>
+      <a class="nav-link" href="/admissions">Admissions</a>
+      <a class="nav-link" href="/fees">Fee Structure</a>
+      <a class="nav-link" href="/announcements">Notices</a>
+      <a class="nav-cta" href="/login">Portal Login →</a>
+    </div>
+    <button class="menu-toggle" onclick="document.getElementById('mob').classList.toggle('open')">☰</button>
+  </div>
+</nav>
+<div class="mobile-menu" id="mob">
+  <a class="nav-link" href="/about">About</a>
+  <a class="nav-link" href="/admissions">Admissions</a>
+  <a class="nav-link" href="/fees">Fee Structure</a>
+  <a class="nav-link" href="/announcements">Notices</a>
+  <a class="nav-link" href="/login" style="color:var(--gold-light);font-weight:700">Portal Login →</a>
+</div>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-bg"></div>
+  <div class="hero-grid-bg"></div>
+  <div class="hero-content">
+    <div class="hero-layout">
+      <div>
+        <div class="hero-tag"><span class="hero-dot"></span> Est. — Nagra, Ballia, U.P.</div>
+        <h1 class="hero-h1">Shaping Tomorrow's<em>Leaders Today</em></h1>
+        <p class="hero-sub">J.C. Memorial School delivers excellence in education through dedicated faculty, modern curriculum, and a nurturing environment where every student thrives.</p>
+        <div class="hero-actions">
+          <a href="/admissions" class="hero-btn-p">Apply for Admission →</a>
+          <a href="/about" class="hero-btn-s">Learn More</a>
+        </div>
+        <div class="hero-stats">
+          <div><div class="hero-stat-num" id="hs1">500+</div><div class="hero-stat-lbl">Students Enrolled</div></div>
+          <div class="hero-divider"></div>
+          <div><div class="hero-stat-num" id="hs2">40+</div><div class="hero-stat-lbl">Qualified Teachers</div></div>
+          <div class="hero-divider"></div>
+          <div><div class="hero-stat-num">25+</div><div class="hero-stat-lbl">Years of Excellence</div></div>
+        </div>
+      </div>
+      <div class="hero-visual">
+        <div class="portal-card">
+          <div class="portal-badge">🎓 Admissions Open!</div>
+          <div class="portal-title">School Portal Access</div>
+          <div class="portal-sub">Select your role to continue</div>
+          <div class="portal-list">
+            <a href="/login/admin" class="portal-item">
+              <div class="portal-icon">🛡️</div>
+              <div><div class="portal-name">Administrator</div><div class="portal-desc">Manage school operations</div></div>
+              <span class="portal-arrow">→</span>
+            </a>
+            <a href="/login/teacher" class="portal-item">
+              <div class="portal-icon">🧑‍🏫</div>
+              <div><div class="portal-name">Teacher Portal</div><div class="portal-desc">Attendance &amp; class management</div></div>
+              <span class="portal-arrow">→</span>
+            </a>
+            <a href="/login/student" class="portal-item">
+              <div class="portal-icon">🎓</div>
+              <div><div class="portal-name">Student Portal</div><div class="portal-desc">Grades, attendance &amp; notices</div></div>
+              <span class="portal-arrow">→</span>
+            </a>
+            <a href="#parent-info" class="portal-item">
+              <div class="portal-icon">👨‍👩‍👧</div>
+              <div><div class="portal-name">Parent Information</div><div class="portal-desc">Fees, notices &amp; updates</div></div>
+              <span class="portal-arrow">→</span>
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- MARQUEE -->
+<div class="marquee-wrap">
+  <div class="marquee-track" id="mtrack">
+    <span class="marquee-item">Admissions Open for Academic Year 2025–26</span>
+    <span class="marquee-item">Annual Sports Day — December 2025</span>
+    <span class="marquee-item">Board Exam Results — Outstanding Performance</span>
+    <span class="marquee-item">New Computer Lab Inaugurated</span>
+    <span class="marquee-item">Parent-Teacher Meeting — 3rd Saturday Monthly</span>
+    <span class="marquee-item">Admissions Open for Academic Year 2025–26</span>
+    <span class="marquee-item">Annual Sports Day — December 2025</span>
+    <span class="marquee-item">Board Exam Results — Outstanding Performance</span>
+    <span class="marquee-item">New Computer Lab Inaugurated</span>
+    <span class="marquee-item">Parent-Teacher Meeting — 3rd Saturday Monthly</span>
+  </div>
+</div>
+
+<!-- WHY US -->
+<section class="section">
+  <div class="container">
+    <div class="sec-tag">Why JC Memorial</div>
+    <h2 class="sec-title">Education That Goes Beyond<br>the Classroom</h2>
+    <p class="sec-sub">Rigorous academics combined with character development, producing well-rounded individuals prepared for the future.</p>
+    <div class="features-grid">
+      <div class="feat-card"><div class="feat-icon">📚</div><div class="feat-title">CBSE-Aligned Curriculum</div><p class="feat-desc">Comprehensive, structured learning aligned with CBSE standards from Class 1 to 12 with expert guidance.</p></div>
+      <div class="feat-card"><div class="feat-icon">👨‍🏫</div><div class="feat-title">Experienced Educators</div><p class="feat-desc">Faculty bringing decades of teaching experience. Every teacher is trained, passionate, and committed to student success.</p></div>
+      <div class="feat-card"><div class="feat-icon">💻</div><div class="feat-title">Digital Infrastructure</div><p class="feat-desc">Computer labs, smart classrooms, and a digital management system keeping parents, teachers, and students connected.</p></div>
+      <div class="feat-card"><div class="feat-icon">🏆</div><div class="feat-title">Sports &amp; Co-Curriculars</div><p class="feat-desc">Cricket, kabaddi, athletics, cultural programs, and science fairs — we develop every talent beyond academics.</p></div>
+      <div class="feat-card"><div class="feat-icon">👨‍👩‍👧</div><div class="feat-title">Parent Engagement</div><p class="feat-desc">Regular PTMs, digital reports, and an open-door policy ensure parents are always part of their child's journey.</p></div>
+      <div class="feat-card"><div class="feat-icon">🔒</div><div class="feat-title">Safe &amp; Nurturing</div><p class="feat-desc">CCTV surveillance, disciplined environment, anti-bullying policies, and counsellors ensure every child feels valued.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- STATS BANNER -->
+<section class="stats-banner">
+  <div class="container">
+    <div class="stats-banner-grid">
+      <div class="stat-b-item"><div class="stat-b-num" id="sb1">500+</div><div class="stat-b-lbl">Students Currently Enrolled</div></div>
+      <div class="stat-b-item"><div class="stat-b-num" id="sb2">40+</div><div class="stat-b-lbl">Qualified Teaching Staff</div></div>
+      <div class="stat-b-item"><div class="stat-b-num">98%</div><div class="stat-b-lbl">Board Exam Pass Rate</div></div>
+      <div class="stat-b-item"><div class="stat-b-num">25+</div><div class="stat-b-lbl">Years of Academic Excellence</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- ANNOUNCEMENTS -->
+<section class="section section-alt" id="notices">
+  <div class="container">
+    <div style="display:flex;align-items:flex-end;justify-content:space-between;flex-wrap:wrap;gap:16px">
+      <div><div class="sec-tag">Latest Updates</div><h2 class="sec-title" style="margin-bottom:0">Important Announcements</h2></div>
+      <a href="/announcements" style="color:var(--gold);font-weight:600;font-size:.9rem;white-space:nowrap">View All →</a>
+    </div>
+    <div class="ann-list" id="annList"><div style="text-align:center;padding:40px;color:var(--muted)">Loading announcements…</div></div>
+  </div>
+</section>
+
+<!-- FEES PREVIEW -->
+<section class="section" id="feesPreview">
+  <div class="container">
+    <div style="display:flex;align-items:flex-end;justify-content:space-between;flex-wrap:wrap;gap:16px">
+      <div>
+        <div class="sec-tag">Transparency</div>
+        <h2 class="sec-title" style="margin-bottom:8px">Fee Structure</h2>
+        <p class="sec-sub">Simple, transparent fees. No hidden charges.</p>
+      </div>
+      <a href="/fees" style="color:var(--gold);font-weight:600;font-size:.9rem;white-space:nowrap">Full Details →</a>
+    </div>
+    <div class="fees-table-wrap">
+      <table class="fees-tbl">
+        <thead><tr><th>Class / Grade</th><th>Annual Fee</th><th>Details</th></tr></thead>
+        <tbody id="feesTbody"><tr><td colspan="3" style="text-align:center;padding:32px;color:var(--muted)">Loading fee structure…</td></tr></tbody>
+      </table>
+    </div>
+  </div>
+</section>
+
+<!-- PARENT INFO -->
+<section class="section section-alt" id="parent-info">
+  <div class="container">
+    <div class="sec-tag">For Parents</div>
+    <h2 class="sec-title">Everything Parents Need to Know</h2>
+    <p class="sec-sub">We believe parents are partners in education. Stay connected every step of the way.</p>
+    <div class="features-grid" style="margin-top:40px">
+      <div class="feat-card"><div class="feat-icon">📱</div><div class="feat-title">SMS Notifications</div><p class="feat-desc">Instant SMS alerts for attendance, exam schedules, school events, and important notices directly on your phone.</p></div>
+      <div class="feat-card"><div class="feat-icon">📊</div><div class="feat-title">Digital Progress Reports</div><p class="feat-desc">Track your child's academic performance, attendance percentage, and teacher feedback through our online portal.</p></div>
+      <div class="feat-card"><div class="feat-icon">🗓️</div><div class="feat-title">Regular PTM Meetings</div><p class="feat-desc">Monthly Parent-Teacher Meetings give you face-to-face time with your child's teachers. Never miss a milestone.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- ADMISSION CTA -->
+<section class="section">
+  <div class="container">
+    <div class="admission-cta">
+      <div>
+        <div class="sec-tag">2025–26 Admissions</div>
+        <div class="cta-title">Secure Your Child's Future at JC Memorial</div>
+        <p class="cta-sub">Limited seats available. Admissions open for Classes 1–12. Apply early to secure your child's place in one of the region's most respected schools.</p>
+      </div>
+      <div class="cta-btns">
+        <a href="/admissions" class="btn-cta btn-p">Apply Now →</a>
+        <a href="/fees" class="btn-cta btn-o">View Fee Structure</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="container">
+    <div class="footer-grid">
+      <div>
+        <div class="footer-logo">
+          <div class="footer-mark">JC</div>
+          <div class="footer-name">J.C. Memorial School<br><span style="font-weight:400;font-size:.8rem;opacity:.6">Nagra, Ballia, Uttar Pradesh</span></div>
+        </div>
+        <p class="footer-tag">Empowering students with knowledge, skills, and values for a better tomorrow.</p>
+        <div class="footer-contacts">
+          <div class="footer-ci"><span class="footer-cicon">📍</span> Nagra, Ballia, Uttar Pradesh</div>
+          <div class="footer-ci"><span class="footer-cicon">📞</span> Contact school office</div>
+          <div class="footer-ci"><span class="footer-cicon">🕐</span> Mon–Sat, 8 AM – 3 PM</div>
+        </div>
+      </div>
+      <div>
+        <div class="footer-h">Quick Links</div>
+        <div class="footer-links">
+          <a class="footer-lnk" href="/about">About School</a>
+          <a class="footer-lnk" href="/admissions">Admissions</a>
+          <a class="footer-lnk" href="/fees">Fee Structure</a>
+          <a class="footer-lnk" href="/announcements">Notices</a>
+        </div>
+      </div>
+      <div>
+        <div class="footer-h">Portals</div>
+        <div class="footer-links">
+          <a class="footer-lnk" href="/login/admin">Admin Login</a>
+          <a class="footer-lnk" href="/login/teacher">Teacher Login</a>
+          <a class="footer-lnk" href="/login/student">Student Login</a>
+          <a class="footer-lnk" href="/forgot-password">Reset Password</a>
+        </div>
+      </div>
+      <div>
+        <div class="footer-h">Resources</div>
+        <div class="footer-links">
+          <a class="footer-lnk" href="/announcements">Announcements</a>
+          <a class="footer-lnk" href="/admissions">Apply Online</a>
+          <a class="footer-lnk" href="/fees">Fee Details</a>
+          <a class="footer-lnk" href="/about">Our History</a>
+        </div>
+      </div>
+    </div>
+    <div class="footer-bot">
+      <span>© 2025 J.C. Memorial School, Nagra, Ballia. All rights reserved.</span>
+      <span>Powered by School Management System</span>
+    </div>
+  </div>
+</footer>
+
+<script>
+async function loadAnnouncements(){
+  try{
+    const res=await fetch('/public/announcements');
+    const data=await res.json();
+    const notices=data.notices||data.data||[];
+    const c=document.getElementById('annList');
+    if(!notices.length){c.innerHTML='<div style="text-align:center;padding:40px;color:var(--muted)">No announcements at this time.</div>';return;}
+    c.innerHTML=notices.slice(0,5).map(n=>{
+      const d=new Date(n.date||n.createdAt);
+      const day=d.getDate();const mon=d.toLocaleString('en',{month:'short'});
+      const ub=n.type==='urgent'?'<span class="urgent-badge">🔴 Urgent</span>':'';
+      return`<div class="ann-card"><div class="ann-date"><div class="ann-day">${day}</div><div class="ann-mon">${mon}</div></div><div><div class="ann-title">${n.title}${ub}</div><div class="ann-desc">${n.description||''}</div></div></div>`;
+    }).join('');
+  }catch(e){document.getElementById('annList').innerHTML='<div style="text-align:center;padding:40px;color:var(--muted)">Check back soon for announcements.</div>';}
+}
+async function loadFees(){
+  try{
+    const res=await fetch('/api/fees');
+    const data=await res.json();
+    const fees=data.data||[];
+    const tb=document.getElementById('feesTbody');
+    if(!fees.length){tb.innerHTML='<tr><td colspan="3" style="text-align:center;padding:32px;color:var(--muted)">Fee structure not yet published. Visit the school office.</td></tr>';return;}
+    tb.innerHTML=fees.slice(0,6).map(f=>`<tr><td><strong>${f.className}</strong></td><td><span class="fee-amt">₹${Number(f.amount).toLocaleString('en-IN')}</span></td><td style="color:var(--muted);font-size:.85rem">${f.details||''}</td></tr>`).join('');
+  }catch(e){document.getElementById('feesTbody').innerHTML='<tr><td colspan="3" style="text-align:center;padding:32px;color:var(--muted)">Please visit the school office for fee details.</td></tr>';}
+}
+async function loadStats(){
+  try{
+    const res=await fetch('/api/dashboard/metrics');
+    const data=await res.json();
+    if(data?.data?.totalStudents){
+      const s=data.data.totalStudents+'+';
+      ['hs1','sb1'].forEach(id=>{const el=document.getElementById(id);if(el)el.textContent=s;});
+    }
+    if(data?.data?.totalTeachers){
+      const t=data.data.totalTeachers+'+';
+      ['hs2','sb2'].forEach(id=>{const el=document.getElementById(id);if(el)el.textContent=t;});
+    }
+  }catch(e){}
+}
+loadAnnouncements();loadFees();loadStats();
+</script>
+</body>
+</html>

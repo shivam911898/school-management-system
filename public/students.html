@@ -1,0 +1,139 @@
+<!DOCTYPE html><html lang="en"><head>
+<meta charset="UTF-8"/><meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+<title>Students | J.C. Memorial School</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,600;9..40,700&display=swap" rel="stylesheet"/><link rel="stylesheet" href="/css/styles.css"/>
+<style>
+.student-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:16px}
+.student-card{background:var(--white);border:1.5px solid var(--slate-light);border-radius:var(--r-xl);padding:20px;transition:all .18s;cursor:pointer}
+.student-card:hover{border-color:var(--gold);box-shadow:var(--shadow-md);transform:translateY(-2px)}
+.student-card-avatar{width:52px;height:52px;border-radius:50%;background:linear-gradient(135deg,var(--navy),var(--navy-mid));display:grid;place-items:center;font-family:'DM Serif Display',serif;font-size:1.3rem;color:var(--gold-light);margin-bottom:12px}
+.student-card-name{font-weight:700;color:var(--navy);margin-bottom:2px}
+.student-card-meta{font-size:.8rem;color:var(--muted)}
+.view-toggle{display:flex;gap:6px}
+.view-btn{padding:6px 12px;border-radius:var(--r-sm);border:1.5px solid var(--slate-light);background:var(--white);font-size:.8rem;font-weight:600;cursor:pointer;color:var(--muted);transition:all .15s}
+.view-btn.active{border-color:var(--navy);background:var(--navy);color:var(--white)}
+</style>
+</head>
+<body>
+<div class="dashboard">
+  <aside class="sidebar" id="sidebar">
+    <div class="sidebar-header"><div class="brand"><span class="brand-mark">JC</span><span>J.C. Memorial</span></div></div>
+    <nav class="sidebar-nav">
+      <div class="sidebar-section-label">Main</div>
+      <a class="sidebar-link" href="/dashboard"><span class="nav-icon">🏠</span>Dashboard</a>
+      <a class="sidebar-link admin-only teacher-only" href="/attendance"><span class="nav-icon">✅</span>Attendance</a>
+      <a class="sidebar-link active" href="/students"><span class="nav-icon">🎓</span>Students</a>
+      <a class="sidebar-link admin-only teacher-only" href="/classes"><span class="nav-icon">🏫</span>Classes</a>
+      <a class="sidebar-link" href="/notices"><span class="nav-icon">📢</span>Notices</a>
+      <div class="sidebar-section-label admin-only teacher-only">Analytics</div>
+      <a class="sidebar-link admin-only teacher-only" href="/attendance-analytics"><span class="nav-icon">📊</span>Analytics</a>
+      <div class="sidebar-section-label admin-only">Administration</div>
+      <a class="sidebar-link admin-only" href="/user-management"><span class="nav-icon">👥</span>Users</a>
+      <a class="sidebar-link admin-only" href="/admin-dashboard"><span class="nav-icon">🛡️</span>Admin Panel</a>
+      <div class="sidebar-section-label">More</div>
+      <a class="sidebar-link" href="/"><span class="nav-icon">🏡</span>Public Site</a>
+    </nav>
+    <div class="sidebar-footer">
+      <div class="sidebar-user">
+        <div class="sidebar-avatar" id="sidebarAvatar">U</div>
+        <div class="sidebar-user-info">
+          <div class="sidebar-user-name" data-admin-name>User</div>
+          <div class="sidebar-user-role" id="sidebarRole">—</div>
+        </div>
+      </div>
+    </div>
+  </aside>
+  <div class="content">
+    <header class="topbar">
+      <div class="topbar-left">
+        <button class="menu-btn" onclick="document.getElementById('sidebar').classList.toggle('open')">☰</button>
+        <div><div class="page-heading">Students</div><div class="page-subheading">Manage student records</div></div>
+      </div>
+      <div class="topbar-right">
+        <div class="view-toggle">
+          <button class="view-btn active" id="cardViewBtn" onclick="setView('card')">⊞ Cards</button>
+          <button class="view-btn" id="tableViewBtn" onclick="setView('table')">≡ Table</button>
+        </div>
+        <button id="addStudentBtn" class="button btn-sm admin-only">+ Add Student</button>
+        <button id="logoutButton" class="button-danger btn-sm">Sign Out</button>
+      </div>
+    </header>
+    <div class="content-inner">
+      <!-- SEARCH / FILTER BAR -->
+      <div style="background:var(--white);border:1px solid var(--slate-light);border-radius:var(--r-lg);padding:16px 20px;margin-bottom:22px;display:flex;gap:12px;flex-wrap:wrap;align-items:flex-end">
+        <div class="field" style="min-width:220px;flex:1">
+          <label for="studentSearch">Search</label>
+          <input type="text" id="studentSearch" placeholder="Name, roll number, ID…"/>
+        </div>
+        <div class="field" style="min-width:160px">
+          <label for="classFilterStudents">Class</label>
+          <select id="classFilterStudents"><option value="">All Classes</option></select>
+        </div>
+        <button id="searchStudentsBtn" class="button-secondary">Search</button>
+      </div>
+
+      <!-- CARD VIEW -->
+      <div id="studentCardView" class="student-grid"></div>
+
+      <!-- TABLE VIEW -->
+      <div id="studentTableView" class="table-card hidden">
+        <div class="table-wrap">
+          <table>
+            <thead><tr><th>Name</th><th>Student ID</th><th>Class</th><th>Section</th><th>Roll No.</th><th>Actions</th></tr></thead>
+            <tbody id="studentsTableBody">
+              <tr><td colspan="6" style="text-align:center;padding:32px;color:var(--muted)">Loading…</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- STUDENT MODAL -->
+<div class="modal-backdrop" id="studentModal">
+  <div class="modal" style="max-width:640px">
+    <div class="modal-header">
+      <div class="modal-title" id="studentModalTitle">Add Student</div>
+      <button class="modal-close" onclick="document.getElementById('studentModal').classList.remove('open')">✕</button>
+    </div>
+    <div class="modal-body">
+      <form id="studentForm">
+        <div class="form-grid">
+          <div class="field"><label for="sName">Full Name *</label><input type="text" id="sName" required/></div>
+          <div class="field"><label for="sEmail">Email *</label><input type="email" id="sEmail" required/></div>
+          <div class="field"><label for="sPassword">Password</label><input type="password" id="sPassword" placeholder="Leave blank to keep"/></div>
+          <div class="field"><label for="sClass">Class *</label><input type="text" id="sClass" required/></div>
+          <div class="field"><label for="sSection">Section</label><input type="text" id="sSection"/></div>
+          <div class="field"><label for="sRoll">Roll No.</label><input type="text" id="sRoll"/></div>
+          <div class="field"><label for="sPhone">Parent Phone</label><input type="tel" id="sPhone"/></div>
+          <div class="field"><label for="sStudentId">Student ID</label><input type="text" id="sStudentId" placeholder="Auto-generated if blank"/></div>
+        </div>
+      </form>
+    </div>
+    <div class="modal-footer">
+      <button class="button-secondary" onclick="document.getElementById('studentModal').classList.remove('open')">Cancel</button>
+      <button class="button" id="saveStudentBtn">Save Student</button>
+    </div>
+  </div>
+</div>
+
+<div id="toastWrap" class="toast-wrap"></div>
+<script src="/js/api.js"></script>
+<script src="/js/students.js"></script>
+<script>
+let currentView='card';
+function setView(v){
+  currentView=v;
+  document.getElementById('studentCardView').classList.toggle('hidden',v!=='card');
+  document.getElementById('studentTableView').classList.toggle('hidden',v!=='table');
+  document.getElementById('cardViewBtn').classList.toggle('active',v==='card');
+  document.getElementById('tableViewBtn').classList.toggle('active',v==='table');
+}
+document.getElementById('addStudentBtn')?.addEventListener('click',()=>{
+  document.getElementById('studentModalTitle').textContent='Add Student';
+  document.getElementById('studentForm').reset();
+  document.getElementById('studentModal').classList.add('open');
+});
+</script>
+</body></html>

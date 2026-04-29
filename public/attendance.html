@@ -1,0 +1,133 @@
+<!DOCTYPE html><html lang="en"><head>
+<meta charset="UTF-8"/><meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+<title>Attendance | J.C. Memorial School</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,600;9..40,700&display=swap" rel="stylesheet"/><link rel="stylesheet" href="/css/styles.css"/>
+<style>
+.att-toolbar{background:var(--white);border:1px solid var(--slate-light);border-radius:var(--r-lg);padding:18px 22px;margin-bottom:24px}
+.student-att-card .student-name{font-weight:600;font-size:.9rem;color:var(--navy)}
+.student-att-card .student-id{font-size:.75rem;color:var(--muted)}
+.att-summary-bar{display:flex;gap:12px;flex-wrap:wrap;margin-bottom:20px}
+.att-summary-chip{padding:8px 16px;border-radius:99px;font-size:.82rem;font-weight:600;border:1.5px solid}
+.chip-present{background:var(--success-bg);color:var(--success);border-color:rgba(26,122,74,.2)}
+.chip-absent{background:var(--danger-bg);color:var(--danger);border-color:rgba(192,57,43,.2)}
+.chip-late{background:var(--gold-pale);color:var(--warn);border-color:rgba(180,83,9,.2)}
+.chip-unmarked{background:var(--bg);color:var(--muted);border-color:var(--slate-light)}
+</style>
+</head>
+<body>
+<div class="dashboard">
+  <aside class="sidebar" id="sidebar">
+    <div class="sidebar-header"><div class="brand"><span class="brand-mark">JC</span><span>J.C. Memorial</span></div></div>
+    <nav class="sidebar-nav">
+      <div class="sidebar-section-label">Main</div>
+      <a class="sidebar-link" href="/dashboard"><span class="nav-icon">🏠</span>Dashboard</a>
+      <a class="sidebar-link active admin-only teacher-only" href="/attendance"><span class="nav-icon">✅</span>Attendance</a>
+      <a class="sidebar-link" href="/students"><span class="nav-icon">🎓</span>Students</a>
+      <a class="sidebar-link admin-only teacher-only" href="/classes"><span class="nav-icon">🏫</span>Classes</a>
+      <a class="sidebar-link" href="/notices"><span class="nav-icon">📢</span>Notices</a>
+      <div class="sidebar-section-label admin-only teacher-only">Analytics</div>
+      <a class="sidebar-link admin-only teacher-only" href="/attendance-analytics"><span class="nav-icon">📊</span>Analytics</a>
+      <div class="sidebar-section-label admin-only">Administration</div>
+      <a class="sidebar-link admin-only" href="/user-management"><span class="nav-icon">👥</span>Users</a>
+      <a class="sidebar-link admin-only" href="/admin-dashboard"><span class="nav-icon">🛡️</span>Admin Panel</a>
+      <div class="sidebar-section-label">More</div>
+      <a class="sidebar-link" href="/"><span class="nav-icon">🏡</span>Public Site</a>
+    </nav>
+    <div class="sidebar-footer">
+      <div class="sidebar-user">
+        <div class="sidebar-avatar" id="sidebarAvatar">U</div>
+        <div class="sidebar-user-info">
+          <div class="sidebar-user-name" data-admin-name>User</div>
+          <div class="sidebar-user-role" id="sidebarRole">—</div>
+        </div>
+      </div>
+    </div>
+  </aside>
+  <div class="content">
+    <header class="topbar">
+      <div class="topbar-left">
+        <button class="menu-btn" onclick="document.getElementById('sidebar').classList.toggle('open')">☰</button>
+        <div><div class="page-heading">Attendance</div><div class="page-subheading">Mark &amp; review student attendance</div></div>
+      </div>
+      <div class="topbar-right">
+        <button id="markAttendanceButton" class="button btn-sm teacher-only admin-only">+ Mark Attendance</button>
+        <button id="logoutButton" class="button-danger btn-sm">Sign Out</button>
+      </div>
+    </header>
+    <div class="content-inner">
+      <!-- MARK ATTENDANCE (Teacher) -->
+      <section id="markAttendanceSection" class="panel teacher-only" style="margin-bottom:24px">
+        <div class="panel-header">
+          <div><div class="panel-title">Mark Attendance</div><div class="panel-sub">Mark for your classes today</div></div>
+        </div>
+        <div class="form-grid" style="margin-bottom:20px">
+          <div class="field"><label for="classSelect">Class *</label>
+            <select id="classSelect" required><option value="">Select Class</option></select></div>
+          <div class="field"><label for="subjectSelect">Subject *</label>
+            <select id="subjectSelect" required><option value="">Select Subject</option></select></div>
+          <div class="field"><label for="attendanceDate">Date *</label>
+            <input type="date" id="attendanceDate" required/></div>
+          <div class="field" style="align-self:flex-end">
+            <button id="loadStudentsButton" class="button">Load Students</button>
+          </div>
+        </div>
+        <div id="attendanceSummaryBar" class="att-summary-bar hidden"></div>
+        <div id="studentsAttendanceGrid" class="attendance-grid"></div>
+        <div id="attendanceActions" class="hidden" style="margin-top:20px;display:flex;gap:10px;flex-wrap:wrap">
+          <button id="markAllPresentBtn" class="button-secondary btn-sm">✅ All Present</button>
+          <button id="markAllAbsentBtn" class="button-secondary btn-sm">❌ All Absent</button>
+          <button id="submitAttendanceButton" class="button" style="margin-left:auto">Save Attendance</button>
+        </div>
+      </section>
+
+      <!-- VIEW ATTENDANCE -->
+      <section class="table-card">
+        <div class="panel-header" style="padding:18px 22px;border-bottom:1px solid var(--slate-light)">
+          <div><div class="panel-title">Attendance Records</div><div class="panel-sub">Filter and review records</div></div>
+          <button id="exportCSVBtn" class="button-secondary btn-sm admin-only teacher-only">⬇ Export CSV</button>
+        </div>
+        <div class="att-toolbar">
+          <div class="form-grid">
+            <div class="field"><label for="filterClass">Class</label>
+              <select id="filterClass"><option value="">All Classes</option></select></div>
+            <div class="field"><label for="filterDate">Date</label>
+              <input type="date" id="filterDate"/></div>
+            <div class="field"><label for="filterSubject">Subject</label>
+              <input type="text" id="filterSubject" placeholder="Any subject"/></div>
+            <div class="field" style="align-self:flex-end">
+              <button id="filterAttendanceBtn" class="button-secondary">Filter</button>
+            </div>
+          </div>
+        </div>
+        <div class="table-wrap">
+          <table>
+            <thead><tr><th>Date</th><th>Student</th><th>Class</th><th>Subject</th><th>Status</th><th>Marked By</th></tr></thead>
+            <tbody id="attendanceTableBody">
+              <tr><td colspan="6" style="text-align:center;padding:32px;color:var(--muted)">Loading…</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+      <!-- STUDENT VIEW -->
+      <section id="studentAttendanceSection" class="panel student-only hidden" style="margin-top:24px">
+        <div class="panel-header">
+          <div><div class="panel-title">My Attendance</div><div class="panel-sub">Your attendance record this semester</div></div>
+        </div>
+        <div id="studentAttendanceSummary"></div>
+        <div class="table-wrap" style="margin-top:16px">
+          <table>
+            <thead><tr><th>Date</th><th>Subject</th><th>Status</th></tr></thead>
+            <tbody id="studentAttendanceBody">
+              <tr><td colspan="3" style="text-align:center;padding:24px;color:var(--muted)">Loading…</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+    </div>
+  </div>
+</div>
+<div id="toastWrap" class="toast-wrap"></div>
+<script src="/js/api.js"></script>
+<script src="/js/attendance-management-fixed.js"></script>
+</body></html>

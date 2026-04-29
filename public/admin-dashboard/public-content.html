@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Public Content Management | Admin</title>
+    <link rel="stylesheet" href="/css/styles.css" />
+</head>
+
+<body>
+    <div class="dashboard">
+        <aside class="sidebar">
+            <div class="brand">
+                <span class="brand-mark">SM</span>
+                <span>School Management</span>
+            </div>
+
+            <nav class="sidebar-nav">
+                <a class="sidebar-link" href="/admin/dashboard">Dashboard</a>
+                <a class="sidebar-link" href="/user-management">Settings</a>
+                <a class="sidebar-link" href="/classes">Classes</a>
+                <a class="sidebar-link" href="/attendance">Attendance</a>
+                <a class="sidebar-link" href="/attendance-analytics">Analytics</a>
+                <a class="sidebar-link" href="/students">Students</a>
+                <a class="sidebar-link" href="/notices">Notices</a>
+                <a class="sidebar-link active" href="/admin/public-content">Public Content</a>
+                <a class="sidebar-link" href="/">Public Home</a>
+            </nav>
+        </aside>
+
+        <main class="content">
+            <div class="content-header">
+                <div>
+                    <p class="muted">Admin tools</p>
+                    <h1 class="page-title">Public Website Content</h1>
+                </div>
+                <button id="logoutButton" class="button-danger" type="button">Logout</button>
+            </div>
+
+            <section class="panel" id="admissions-panel">
+                <h2 id="admissionFormTitle">Add Admission</h2>
+                <form id="admissionForm" class="form-grid">
+                    <div class="field">
+                        <label for="admissionTitle">Title</label>
+                        <input id="admissionTitle" name="title" type="text" required />
+                    </div>
+                    <div class="field">
+                        <label for="admissionStartDate">Start Date</label>
+                        <input id="admissionStartDate" name="startDate" type="date" required />
+                    </div>
+                    <div class="field" style="grid-column: 1 / -1;">
+                        <label for="admissionDescription">Description</label>
+                        <textarea id="admissionDescription" name="description" required></textarea>
+                    </div>
+                    <div class="field" style="grid-column: 1 / -1;">
+                        <label for="admissionRequirements">Requirements (comma or line-separated)</label>
+                        <textarea id="admissionRequirements" name="requirements"></textarea>
+                    </div>
+                    <div class="actions">
+                        <button class="button" type="submit">Save Admission</button>
+                        <button id="cancelAdmissionEdit" class="button-secondary hidden" type="button">Cancel</button>
+                    </div>
+                </form>
+
+                <div class="table-wrap" style="margin-top:16px;">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Title</th>
+                                <th>Start Date</th>
+                                <th>Requirements</th>
+                                <th>Description</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody id="admissionsTableBody"></tbody>
+                    </table>
+                </div>
+            </section>
+
+            <section class="panel" id="fees-panel">
+                <h2 id="feeFormTitle">Add Fee Record</h2>
+                <form id="feeForm" class="form-grid">
+                    <div class="field">
+                        <label for="feeClassName">Class Name</label>
+                        <input id="feeClassName" name="className" type="text" required />
+                    </div>
+                    <div class="field">
+                        <label for="feeAmount">Amount</label>
+                        <input id="feeAmount" name="amount" type="number" min="0" required />
+                    </div>
+                    <div class="field" style="grid-column: 1 / -1;">
+                        <label for="feeDetails">Details</label>
+                        <textarea id="feeDetails" name="details" required></textarea>
+                    </div>
+                    <div class="actions">
+                        <button class="button" type="submit">Save Fee</button>
+                        <button id="cancelFeeEdit" class="button-secondary hidden" type="button">Cancel</button>
+                    </div>
+                </form>
+
+                <div class="table-wrap" style="margin-top:16px;">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Class</th>
+                                <th>Amount</th>
+                                <th>Details</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody id="feesTableBody"></tbody>
+                    </table>
+                </div>
+            </section>
+
+            <section class="panel" id="about-panel">
+                <h2>About Section</h2>
+                <form id="aboutForm" class="form-grid">
+                    <div class="field">
+                        <label for="aboutSchoolName">School Name</label>
+                        <input id="aboutSchoolName" name="schoolName" type="text" required />
+                    </div>
+                    <div class="field">
+                        <label for="aboutHeroImage">Hero Image Path</label>
+                        <input id="aboutHeroImage" name="heroImage" type="text"
+                            placeholder="/images/school-banner.png" />
+                    </div>
+                    <div class="field" style="grid-column: 1 / -1;">
+                        <label for="aboutDescription">Description</label>
+                        <textarea id="aboutDescription" name="description" required></textarea>
+                    </div>
+                    <div class="field">
+                        <label for="aboutVision">Vision</label>
+                        <textarea id="aboutVision" name="vision"></textarea>
+                    </div>
+                    <div class="field">
+                        <label for="aboutMission">Mission</label>
+                        <textarea id="aboutMission" name="mission"></textarea>
+                    </div>
+                    <div class="actions">
+                        <button class="button" type="submit">Save About</button>
+                    </div>
+                </form>
+            </section>
+        </main>
+    </div>
+
+    <div id="toastWrap" class="toast-wrap"></div>
+
+    <script src="/js/api.js"></script>
+    <script src="/js/admin-public-content.js"></script>
+</body>
+
+</html>

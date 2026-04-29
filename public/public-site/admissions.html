@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admissions | J.C. Memorial School</title>
+    <link rel="stylesheet" href="/public-site/style.css">
+</head>
+
+<body data-page="admissions">
+    <div class="site-shell">
+        <header id="public-header"></header>
+
+        <main class="page-main">
+            <section class="container section-card">
+                <h2>Admissions</h2>
+                <div id="admissions-info" class="announcements-list"></div>
+            </section>
+        </main>
+
+        <footer id="public-footer"></footer>
+    </div>
+    <script>
+        fetch('/public/admissions')
+            .then(res => res.json())
+            .then(data => {
+                const admissions = data.admissions || [];
+                if (!admissions.length) {
+                    document.getElementById('admissions-info').innerHTML = '<p>No admissions details available right now.</p>';
+                    return;
+                }
+
+                document.getElementById('admissions-info').innerHTML = admissions.map(item => `
+                                    <article class="announcement-card">
+                                        <h3>${item.title}</h3>
+                                        <p><strong>Start Date:</strong> ${new Date(item.startDate).toLocaleDateString()}</p>
+                                        <p>${item.description}</p>
+                                        <h4>Requirements</h4>
+                                        <ul>${(item.requirements || []).map(req => `<li>${req}</li>`).join('')}</ul>
+                                    </article>
+                                `).join('');
+            });
+    </script>
+    <script src="/public-site/layout.js"></script>
+</body>
+
+</html>
